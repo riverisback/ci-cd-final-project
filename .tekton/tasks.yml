@@ -1,3 +1,4 @@
+---
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
@@ -7,8 +8,7 @@ spec:
   workspaces:
     - name: source
   steps:
-    - name: remove-files   
-
+    - name: remove-files
       image: alpine:3
       env:
         - name: WORKSPACE_SOURCE_PATH
@@ -34,10 +34,11 @@ spec:
           # Delete files and directories starting with .. plus any other character
           rm -rf "${WORKSPACE_SOURCE_PATH}"/..?*
         fi   
-
+---
 apiVersion: tekton.dev/v1beta1
 kind: Task
-name: nose
+metadata:
+  name: nose
 spec:
   workspaces:
     - name: source
@@ -45,9 +46,8 @@ spec:
     - name: args
       description: Arguments to pass to nose
       type: string
-      default: "-v"   
+      default: "-v"
 
-  description: This task runs nose tests on the provided source code.
   steps:
     - name: nosetests
       image: python:3.9-slim
